@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Best Friend | Dermocosmética & K-Beauty 🎀</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #fff9fb;
+      --card-bg: #ffffff;
+      --primary: #ff85a2;
+      --primary-hover: #ff6b8b;
+      --accent: #b5e2fa;
+      --purple-accent: #e8dff5;
+      --text-dark: #2b2d42;
+      --text-muted: #6c757d;
+      --border-color: #f7d6e0;
+      --shadow: 0 10px 25px rgba(255, 133, 162, 0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-dark); padding-bottom: 60px; }
+
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 2px solid var(--border-color);
+      padding: 12px 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 15px; flex-wrap: wrap;
+    }
+    .logo { font-family: 'Fredoka', sans-serif; font-size: 1.6rem; color: var(--primary); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    
+    .search-box {
+      flex: 1; max-width: 400px; position: relative;
+    }
+    .search-box input {
+      width: 100%; padding: 10px 16px; border-radius: 20px; border: 2px solid var(--border-color); outline: none; font-size: 0.9rem; transition: 0.2s;
+    }
+    .search-box input:focus { border-color: var(--primary); }
+
+    .cart-btn {
+      background: var(--primary); color: white; border: none; padding: 10px 18px; border-radius: 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: var(--shadow); transition: 0.2s;
+    }
+    .cart-btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+    .hero {
+      text-align: center; padding: 30px 20px 10px; background: linear-gradient(180deg, #fff0f5 0%, var(--bg-color) 100%);
+    }
+    .hero h1 { font-family: 'Fredoka', sans-serif; font-size: 2.2rem; color: var(--primary); margin-bottom: 8px; }
+    .hero p { color: var(--text-muted); max-width: 600px; margin: 0 auto 15px; font-size: 0.95rem; }
+
+    .categories { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 25px; padding: 0 10px; }
+    .cat-btn {
+      background: white; border: 2px solid var(--border-color); padding: 8px 16px; border-radius: 15px; font-weight: 600; cursor: pointer; color: var(--text-dark); transition: all 0.2s;
+    }
+    .cat-btn.active, .cat-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .card {
+      background: var(--card-bg); border-radius: 20px; border: 2px solid var(--border-color); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; position: relative; transition: transform 0.2s;
+    }
+    .card:hover { transform: translateY(-4px); }
+    .badge { position: absolute; top: 10px; left: 10px; background: var(--accent); color: #1d3557; padding: 4px 10px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; z-index: 2; }
+    .card img { width: 100%; height: 210px; object-fit: contain; padding: 15px; background: #fff; border-bottom: 1px solid var(--border-color); }
+    .card-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+    .card-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4; }
+    .price { font-size: 1.15rem; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+    .add-btn {
+      width: 100%; background: var(--purple-accent); color: #4a4e69; border: none; padding: 10px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s;
+    }
+    .add-btn:hover { background: var(--primary); color: white; }
+
+    /* Modal Carrito */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200; justify-content: center; align-items: center; }
+    .modal-content { background: white; width: 90%; max-width: 480px; border-radius: 20px; padding: 24px; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+    .modal-header h3 { font-family: 'Fredoka', sans-serif; color: var(--primary); font-size: 1.3rem; }
+    .close-btn { cursor: pointer; font-size: 1.5rem; font-weight: bold; color: var(--text-muted); }
+    
+    .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; gap: 10px; }
+    .item-info { flex: 1; }
+    .item-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
+    .item-price { font-size: 0.85rem; color: var(--primary); font-weight: 600; }
+    .qty-controls { display: flex; align-items: center; gap: 6px; }
+    .qty-btn { background: #f0f0f0; border: none; width: 26px; height: 26px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    .qty-btn:hover { background: var(--primary); color: white; }
+    .remove-btn { background: #ffe5e5; color: #d90429; border: none; padding: 4px 8px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; font-weight: 700; }
+
+    .send-wa-btn { width: 100%; background: #25d366; color: white; border: none; padding: 14px; border-radius: 14px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 15px; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }
+
+    /* Notificación Toast Profesional */
+    #toast {
+      visibility: hidden;
+      min-width: 280px;
+      background-color: #2b2d42;
+      color: #fff;
+      text-align: center;
+      border-radius: 12px;
+      padding: 14px 20px;
+      position: fixed;
+      z-index: 300;
+      right: 20px;
+      bottom: 30px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      opacity: 0;
+      transition: opacity 0.3s, bottom 0.3s, visibility 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-left: 5px solid var(--primary);
+    }
+    #toast.show {
+      visibility: visible;
+      opacity: 1;
+      bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#" class="logo">🎀 Your Best Friend</a>
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Buscar protector, marca, lip oil..." oninput="handleSearch()">
+    </div>
+    <button class="cart-btn" onclick="openCart()">🛒 Ver Pedido (<span id="cart-count">0</span>)</button>
+  </header>
+
+  <section class="hero">
+    <h1>Tu Tienda K-Beauty & Skincare ✨</h1>
+    <p>Productos 100% originales pedidos directamente para ti. ¡Lo mejor del skincare viral a tu alcance!</p>
+  </section>
+
+  <div class="categories">
+    <button class="cat-btn active" onclick="filterCat('all')">Todos los Productos</button>
+    <button class="cat-btn" onclick="filterCat('solar')">Protectores Solares</button>
+    <button class="cat-btn" onclick="filterCat('labios')">Cuidado de Labios</button>
+  </div>
+
+  <div class="grid" id="product-grid"></div>
+
+  <!-- Modal Carrito -->
+  <div class="modal" id="cart-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>🛍️ Tu Pedido Bajo Encargo</h3>
+        <span class="close-btn" onclick="closeCart()">&times;</span>
+      </div>
+      <div id="cart-items"></div>
+      <div style="margin-top: 15px; text-align: right; font-size: 1.1rem;">
+        <strong>Total Estimado: $<span id="cart-total">0</span> COP</strong>
+      </div>
+      <button class="send-wa-btn" onclick="sendWhatsApp()">Enviar Encargo a WhatsApp 📲</button>
+    </div>
+  </div>
+
+  <!-- Componente Toast de Notificación -->
+  <div id="toast">✨ Producto agregado al carrito</div>
+
+  <script>
+    const products = [
+      { id: 1, name: "Eucerin Protector Solar Oil Control Toque Seco", price: 128000, cat: "solar", badge: "Dermocosmética", desc: "Protección solar con acabado mate y control de brillo. Formulado con L-Carnitina y Licochalcona A.", img: "Eucerin-Protector-Solar-Oil-Control-Toque-Seco-jpg.jpg" },
+      { id: 2, name: "SKIN1004 Centella Hyalu-Cica Water-Fit Sun Serum 50ml", price: 100000, cat: "solar", badge: "K-Beauty Viral", desc: "Joya en formato sérum ultraligero SPF50+ PA++++. Protege e hidrata con Centella Asiática y ácido hialurónico.", img: "10615-CENTELLA-Hyalu-Cica-Water-Fit-Sun-Serum-X-50Ml.jpg" },
+      { id: 3, name: "LA ROCHE POSAY Anthelios UV Mune 400 Oil Control 50ml", price: 155000, cat: "solar", badge: "Alta Gama", desc: "Filtro Mexoryl 400 y tecnología Oil Control. Absorbe el exceso de sebo dejando un acabado mate invisible.", img: "9066-LA-ROCHE-POSAY-Anthelios-Uv-Mune-400-Spf-50-Oil-Control-X-50-Ml1.jpg" },
+      { id: 4, name: "BEAUTY OF JOSEON Relief Sun: Rice + Probiotics 50ml", price: 105000, cat: "solar", badge: "Más Vendido", desc: "Textura ligera tipo crema con extracto de arroz y probióticos. Ilumina y fortalece la barrera cutánea.", img: "BEAUTY-OF-JOSEON-Protector-Solar-RiceProbiotics-Spf-50-X-50Ml.jpg" },
+      { id: 5, name: "SKIN1004 Centella Tone Brightening Tone-Up Sunscreen 50ml", price: 98000, cat: "solar", badge: "Efecto Tone-Up", desc: "Alta protección SPF50+ PA++++ con efecto iluminador natural. Ideal como base de maquillaje.", img: "SKIN1004-Madagascar-Centella-Tone-Brightening-Tone-Up-Sunscreen-SPF50-PA-Protector-Solar-50ml.jpg" },
+      { id: 6, name: "SKIN1004 Centella Tea-Trica Soothing Sun Milk 50ml", price: 98000, cat: "solar", badge: "Piel Sensible", desc: "Leche solar calmante con Centella y Tea-Trica. Reduce rojeces y controla la inflamación.", img: "SKIN1004-Madagascar-Centella-Tea-Trica-Soothing-Sun-Milk-SPF50-PA-Protector-Solar-X-50Ml.jpg" },
+      { id: 7, name: "TOCOBO Cotton Soft Sun Stick Mini 11g", price: 70000, cat: "solar", badge: "Formato Barra", desc: "Barra solar mini para llevar a todas partes. Acabado mate tipo 'cotton' para reaplicar sobre el maquillaje.", img: "TOCOBO-Cotton-Soft-Sun-Stick-Mini-11-Gr.jpg" },
+      { id: 8, name: "HELIOCARE 360° Pigment Solution / Acnimat SPF50+", price: 185000, cat: "solar", badge: "Dermatológico", desc: "Fotoprotección avanzada de amplio espectro contra UVB, UVA, luz visible e infrarroja.", img: "HELIOCARE_360°_PIGMENT_SOLUTION_1.jpg" },
+      { id: 9, name: "ISDIN Fotoprotector Pediátrico Fusion Water Magic 50ml", price: 122000, cat: "solar", badge: "Piel Reactiva", desc: "Fase acuosa de absorción inmediata e hidratación intensa. Especial para pieles sensibles.", img: "CO_2915_TH_FPFWMAGICPEDIATRICSSPF5050ML_MAIN_IMAGE_0-1024x1024.jpg" },
+      { id: 10, name: "TOCOBO Cotton Soft Sun Stick SPF50+ PA++++ 19g", price: 108000, cat: "solar", badge: "Tamaño Completo", desc: "Barra solar suave con extracto de algodón. Controla la grasa sin dejar sensación pegajosa.", img: "9818_TOCOBO-Protector-Solar-Cotton-Soft-Sun-Stick-SPF-50-PA-X-19Grjpg.jpg" },
+      { id: 11, name: "TOCOBO JUICY Berry Plumping Lip Oil 4g", price: 68000, cat: "labios", badge: "Efecto Plump", desc: "Aceite labial nutritivo con mezcla de aceites naturales y frutos rojos. Aporta volumen y brillo.", img: "TOCOBO-JUICY-Berry-Plumping-Lip-Oil-Berry-Brandy-X-4Gr.jpg" },
+      { id: 12, name: "TOCOBO Cica Cooling Sun Stick SPF50+ PA++++ 19g", price: 108000, cat: "solar", badge: "Efecto Frío", desc: "Barra solar con efecto refrescante. Contiene Centella Asiática para calmar irritaciones y brotes.", img: "10247-TOCOBO-PROTECTOR-SOLAR-CICA-COOLING-SUN-STICK-SPF50-PA-X-19-GR.jpg" },
+      { id: 13, name: "LA ROCHE POSAY Anthelios XL Toque Seco Color 50ml", price: 155000, cat: "solar", badge: "Con Color", desc: "Gel-crema resistente al agua con micropartículas matificantes y pigmentos para unificar el tono.", img: "159-LA-ROCHE-POSAY-Anthelios-XL-Toque-Seco.jpg" },
+      { id: 14, name: "SKIN1004 Centella Air-Fit Suncream Plus SPF50+ 50ml", price: 98000, cat: "solar", badge: "Físico 100%", desc: "Protector mineral de textura ligera no grasa. Calma la piel sensible y reduce rojeces.", img: "SKIN1004-Centella-Air-Fit-Suncream-Plus-X-50Ml.jpg" },
+      { id: 15, name: "BEAUTY OF JOSEON Matte Sun Stick 18g", price: 108000, cat: "solar", badge: "Formato Barra", desc: "El aliado perfecto para retocar la protección solar. Acabado mate que controla el brillo.", img: "BEAUTY-OF-JOSEON-Protector-Solar-Matte-Sun-Stick-X-18Gr.jpg" }
+    ];
+
+    let cart = {};
+    let currentCategory = 'all';
+
+    function renderProducts(items) {
+      const grid = document.getElementById('product-grid');
+      if (!grid) return;
+      
+      if (items.length === 0) {
+        grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px 0;">No se encontraron productos que coincidan con tu búsqueda.</p>`;
+        return;
+      }
+
+      grid.innerHTML = items.map(p => `
+        <div class="card">
+          <span class="badge">${p.badge}</span>
+          <img src="${p.img}" alt="${p.name}">
+          <div class="card-body">
+            <div>
+              <div class="card-title">${p.name}</div>
+              <div class="card-desc">${p.desc}</div>
+            </div>
+            <div>
+              <div class="price">$${p.price.toLocaleString('es-CO')} COP</div>
+              <button class="add-btn" onclick="addToCart(${p.id})">+ Encargar Producto</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterCat(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+      if (event && event.target) event.target.classList.add('active');
+      applyFilters();
+    }
+
+    function handleSearch() {
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const query = document.getElementById('search-input').value.toLowerCase();
+      let filtered = products;
+
+      if (currentCategory !== 'all') {
+        filtered = filtered.filter(p => p.cat === currentCategory);
+      }
+
+      if (query.trim() !== '') {
+        filtered = filtered.filter(p => p.name.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query) || p.badge.toLowerCase().includes(query));
+      }
+
+      renderProducts(filtered);
+    }
+
+    function addToCart(id) {
+      if (cart[id]) {
+        cart[id].qty += 1;
+      } else {
+        const item = products.find(p => p.id === id);
+        cart[id] = { ...item, qty: 1 };
+      }
+      updateCartCount();
+      showToast(`¡${cart[id].name.slice(0, 25)}... agregado!`);
+    }
+
+    function updateCartCount() {
+      const totalCount = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById('cart-count').innerText = totalCount;
+    }
+
+    function changeQty(id, delta) {
+      if (cart[id]) {
+        cart[id].qty += delta;
+        if (cart[id].qty <= 0) {
+          delete cart[id];
+        }
+      }
+      updateCartCount();
+      renderCartItems();
+    }
+
+    function removeItem(id) {
+      delete cart[id];
+      updateCartCount();
+      renderCartItems();
+    }
+
+    function renderCartItems() {
+      const container = document.getElementById('cart-items');
+      const items = Object.values(cart);
+      
+      if (items.length === 0) {
+        container.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 20px 0;">Tu carrito está vacío 🛍️</p>`;
+        document.getElementById('cart-total').innerText = '0';
+        return;
+      }
+
+      let total = 0;
+      container.innerHTML = items.map(item => {
+        const itemTotal = item.price * item.qty;
+        total += itemTotal;
+        return `
+          <div class="cart-item">
+            <div class="item-info">
+              <div class="item-title">${item.name}</div>
+              <div class="item-price">$${item.price.toLocaleString('es-CO')} COP x ${item.qty}</div>
+            </div>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+              <span style="font-weight: bold; font-size: 0.9rem;">${item.qty}</span>
+              <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+              <button class="remove-btn" onclick="removeItem(${item.id})">✕</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('cart-total').innerText = total.toLocaleString('es-CO');
+    }
+
+    function openCart() {
+      renderCartItems();
+      document.getElementById('cart-modal').style.display = 'flex';
+    }
+
+    function closeCart() {
+      document.getElementById('cart-modal').style.display = 'none';
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function sendWhatsApp() {
+      const items = Object.values(cart);
+      if (items.length === 0) return alert('Tu pedido está vacío');
+      
+      let msg = "¡Hola Your Best Friend! 🎀 Quiero realizar el siguiente encargo:\n\n";
+      let total = 0;
+      
+      items.forEach((item, index) => {
+        const itemTotal = item.price * item.qty;
+        msg += `${index + 1}. *${item.name}*\n   Cantidad: ${item.qty} unidad(es)\n   Precio: $${itemTotal.toLocaleString('es-CO')} COP\n\n`;
+        total += itemTotal;
+      });
+      
+      msg += `*Total a pagar:* $${total.toLocaleString('es-CO')} COP\n\n`;
+      msg += "Por favor indícame los datos para realizar la transferencia por Nequi/Daviplata.";
+
+      const phone = "573182319338";
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      renderProducts(products);
+    });
+  </script>
+</body>
+</html>
