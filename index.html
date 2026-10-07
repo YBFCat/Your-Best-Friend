@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Best Friend | Dermocosmética & K-Beauty 🎀</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #fff9fb;
+      --card-bg: #ffffff;
+      --primary: #ff85a2;
+      --primary-hover: #ff6b8b;
+      --accent: #b5e2fa;
+      --purple-accent: #e8dff5;
+      --text-dark: #2b2d42;
+      --text-muted: #6c757d;
+      --border-color: #f7d6e0;
+      --shadow: 0 10px 25px rgba(255, 133, 162, 0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-dark); padding-bottom: 60px; }
+
+    .top-banner {
+      background: linear-gradient(90deg, #ff85a2, #b5e2fa, #ff85a2);
+      color: #2b2d42; font-weight: 700; font-size: 0.8rem; text-align: center; padding: 6px 10px;
+      letter-spacing: 0.5px; text-transform: uppercase;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 2px solid var(--border-color);
+      padding: 12px 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 15px; flex-wrap: wrap;
+    }
+    .logo { font-family: 'Fredoka', sans-serif; font-size: 1.6rem; color: var(--primary); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    
+    .search-box { flex: 1; max-width: 380px; position: relative; }
+    .search-box input {
+      width: 100%; padding: 10px 16px; border-radius: 20px; border: 2px solid var(--border-color); outline: none; font-size: 0.9rem; transition: 0.2s;
+    }
+    .search-box input:focus { border-color: var(--primary); }
+
+    .cart-btn {
+      background: var(--primary); color: white; border: none; padding: 10px 18px; border-radius: 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: var(--shadow); transition: 0.2s;
+    }
+    .cart-btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+    nav.nav-bar {
+      background: #ffffff; border-bottom: 1px solid var(--border-color); display: flex; justify-content: center; position: relative; z-index: 90;
+    }
+    .nav-list { display: flex; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; justify-content: center; }
+    .nav-item { position: relative; }
+    .nav-link {
+      display: block; padding: 14px 18px; color: var(--text-dark); font-weight: 700; font-size: 0.88rem; text-decoration: none; cursor: pointer; transition: 0.2s;
+    }
+    .nav-link:hover, .nav-item:hover > .nav-link { color: var(--primary); }
+
+    .dropdown-menu {
+      display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      background: white; border: 2px solid var(--border-color); border-radius: 16px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.12); padding: 20px; min-width: 480px;
+      grid-template-columns: repeat(2, 1fr); gap: 20px; z-index: 200;
+    }
+    .nav-item:hover .dropdown-menu { display: grid; }
+
+    .dropdown-col h4 { font-family: 'Fredoka', sans-serif; color: var(--primary); font-size: 0.95rem; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px; }
+    .dropdown-col a {
+      display: block; padding: 6px 0; color: var(--text-dark); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: 0.2s; cursor: pointer;
+    }
+    .dropdown-col a:hover { color: var(--primary); padding-left: 5px; }
+
+    .hero { text-align: center; padding: 25px 20px 10px; background: linear-gradient(180deg, #fff0f5 0%, var(--bg-color) 100%); }
+    .hero h1 { font-family: 'Fredoka', sans-serif; font-size: 2.2rem; color: var(--primary); margin-bottom: 6px; }
+    .hero p { color: var(--text-muted); max-width: 600px; margin: 0 auto 10px; font-size: 0.95rem; }
+
+    .filter-status { text-align: center; margin-bottom: 20px; font-size: 0.9rem; color: var(--text-muted); font-weight: 600; }
+    .reset-filter-btn { background: var(--purple-accent); color: var(--text-dark); border: none; padding: 4px 10px; border-radius: 10px; font-weight: 700; cursor: pointer; margin-left: 8px; font-size: 0.8rem; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .card {
+      background: var(--card-bg); border-radius: 20px; border: 2px solid var(--border-color); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; position: relative; transition: transform 0.2s;
+    }
+    .card:hover { transform: translateY(-4px); }
+    .badge { position: absolute; top: 10px; left: 10px; background: var(--accent); color: #1d3557; padding: 4px 10px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; z-index: 2; }
+    .card img { width: 100%; height: 210px; object-fit: contain; padding: 15px; background: #fff; border-bottom: 1px solid var(--border-color); }
+    .card-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+    .card-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4; }
+    .price { font-size: 1.15rem; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+    .add-btn {
+      width: 100%; background: var(--purple-accent); color: #4a4e69; border: none; padding: 10px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s;
+    }
+    .add-btn:hover { background: var(--primary); color: white; }
+
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 300; justify-content: center; align-items: center; }
+    .modal-content { background: white; width: 90%; max-width: 480px; border-radius: 20px; padding: 24px; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+    .modal-header h3 { font-family: 'Fredoka', sans-serif; color: var(--primary); font-size: 1.3rem; }
+    .close-btn { cursor: pointer; font-size: 1.5rem; font-weight: bold; color: var(--text-muted); }
+    
+    .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; gap: 10px; }
+    .item-info { flex: 1; }
+    .item-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
+    .item-price { font-size: 0.85rem; color: var(--primary); font-weight: 600; }
+    .qty-controls { display: flex; align-items: center; gap: 6px; }
+    .qty-btn { background: #f0f0f0; border: none; width: 26px; height: 26px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    .qty-btn:hover { background: var(--primary); color: white; }
+    .remove-btn { background: #ffe5e5; color: #d90429; border: none; padding: 4px 8px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; font-weight: 700; }
+
+    .send-wa-btn { width: 100%; background: #25d366; color: white; border: none; padding: 14px; border-radius: 14px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 15px; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }
+
+    #toast {
+      visibility: hidden; min-width: 280px; background-color: #2b2d42; color: #fff; text-align: center; border-radius: 12px; padding: 14px 20px; position: fixed; z-index: 400; right: 20px; bottom: 30px; font-size: 0.9rem; font-weight: 600; box-shadow: 0 8px 20px rgba(0,0,0,0.25); opacity: 0; transition: opacity 0.3s, bottom 0.3s, visibility 0.3s; display: flex; align-items: center; gap: 10px; border-left: 5px solid var(--primary);
+    }
+    #toast.show { visibility: visible; opacity: 1; bottom: 40px; }
+  </style>
+</head>
+<body>
+
+  <div class="top-banner">✨ ENVÍO SEGURO • PRODUCTOS 100% ORIGINALES K-BEAUTY & DERMOCOSMÉTICA ✨</div>
+
+  <header>
+    <a href="#" class="logo" onclick="filterBy('all', 'Todos los Productos')">🎀 Your Best Friend</a>
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Buscar limpiador, protector, marca..." oninput="handleSearch()">
+    </div>
+    <button class="cart-btn" onclick="openCart()">🛒 Ver Pedido (<span id="cart-count">0</span>)</button>
+  </header>
+
+  <nav class="nav-bar">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <span class="nav-link" onclick="filterBy('all', 'Todos los Productos')">Inicio</span>
+      </li>
+      
+      <li class="nav-item">
+        <span class="nav-link">Limpieza Facial ▾</span>
+        <div class="dropdown-menu">
+          <div class="dropdown-col">
+            <h4>Tipos de Limpiadores</h4>
+            <a onclick="filterBy('tag', 'Gel Limpiador Espumoso', 'gel-limpiador')">• Geles Limpiadores Espumosos</a>
+            <a onclick="filterBy('tag', 'Control Imperfecciones y Poros', 'imperfecciones')">• Control Imperfecciones & Acné</a>
+            <a onclick="filterBy('tag', 'Crema a Espuma', 'crema-espuma')">• Crema Limpiadora a Espuma</a>
+          </div>
+          <div class="dropdown-col">
+            <h4>Por Necesidad de Piel</h4>
+            <a onclick="filterBy('tag', 'Piel Seca y Delicada', 'piel-seca')">• Piel Seca & Sensible</a>
+            <a onclick="filterBy('tag', 'Anti-Rugosidades Exfoliante', 'rugosidades')">• Piel Rugosa / Áspera</a>
+            <a onclick="filterBy('tag', 'Air Foam Reequilibrante', 'air-foam')">• Air Foam Reequilibrante</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <span class="nav-link">Marcas ▾</span>
+        <div class="dropdown-menu">
+          <div class="dropdown-col">
+            <h4>Dermocosmética Viral</h4>
+            <a onclick="filterBy('brand', 'CeraVe', 'cerave')">• CeraVe Dermatológico</a>
+            <a onclick="filterBy('brand', 'La Roche-Posay', 'la roche')">• La Roche-Posay</a>
+            <a onclick="filterBy('brand', 'Eucerin', 'eucerin')">• Eucerin</a>
+            <a onclick="filterBy('brand', 'Heliocare', 'heliocare')">• Heliocare 360°</a>
+            <a onclick="filterBy('brand', 'ISDIN', 'isdin')">• ISDIN</a>
+          </div>
+          <div class="dropdown-col">
+            <h4>K-Beauty Coreano</h4>
+            <a onclick="filterBy('brand', 'Beauty of Joseon', 'beauty of joseon')">• Beauty of Joseon</a>
+            <a onclick="filterBy('brand', 'SKIN1004', 'skin1004')">• SKIN1004 Madagascar</a>
+            <a onclick="filterBy('brand', 'TOCOBO', 'tocobo')">• TOCOBO</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <span class="nav-link">Protección Solar ▾</span>
+        <div class="dropdown-menu">
+          <div class="dropdown-col">
+            <h4>Por Formato & Acabado</h4>
+            <a onclick="filterBy('tag', 'Acabado Mate / Toque Seco', 'mate')">• Acabado Mate / Control Sebo</a>
+            <a onclick="filterBy('tag', 'Protectores en Barra (Sticks)', 'stick')">• En Barra (Sun Sticks)</a>
+            <a onclick="filterBy('tag', 'Sérums & Leches Solares', 'serum')">• Sérums & Leches Solares</a>
+          </div>
+          <div class="dropdown-col">
+            <h4>Especialidades</h4>
+            <a onclick="filterBy('tag', 'Protectores Solares con Color', 'color')">• Con Color / Tinted</a>
+            <a onclick="filterBy('tag', 'Piel Sensible y Reactiva', 'sensible')">• Piel Sensible / Pediátrico</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <span class="nav-link" onclick="filterBy('cat', 'Cuidado de Labios', 'labios')">Cuidado de Labios</span>
+      </li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <h1>Tu Tienda K-Beauty & Skincare ✨</h1>
+    <p>Productos 100% originales pedidos directamente para ti. ¡Lo mejor del skincare viral a tu alcance!</p>
+  </section>
+
+  <div class="filter-status" id="filter-status">
+    Mostrando: <strong>Todos los Productos</strong>
+  </div>
+
+  <div class="grid" id="product-grid"></div>
+
+  <!-- Modal Carrito -->
+  <div class="modal" id="cart-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>🛍️ Tu Pedido Bajo Encargo</h3>
+        <span class="close-btn" onclick="closeCart()">&times;</span>
+      </div>
+      <div id="cart-items"></div>
+      <div style="margin-top: 15px; text-align: right; font-size: 1.1rem;">
+        <strong>Total Estimado:
